@@ -18,5 +18,10 @@ antigen bundle command-not-found
 
 antigen apply
 
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir vcs)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status os_icon  root_indicator
+background_jobs history time)
+
+
 #zplug "bhilburn/powerlevel9k", use:powerlevel9k.zsh-theme
 
