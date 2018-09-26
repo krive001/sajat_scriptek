@@ -18,6 +18,7 @@ git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/theme
 
 cp .zshrc ~
 sudo cp HackRegularNerdFontComplete.ttf /usr/share/fonts/TTF/
+sudo cp Hack\ Regular\ Nerd\ Font\ Complete\ Mono.ttf /usr/share/fonts/TTF/
 cp icons.zsh ~/.oh-my-zsh1/custom/themes/powerlevel9k/functions/
 
 # Refresh font cache
