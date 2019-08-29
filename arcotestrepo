@@ -26,11 +26,11 @@ function toggle() {
 
 function help() {
 	echo 'Usage:'
-	echo '      ' $0 'on' '    Arcolinux testing repo on.'
-    echo '      ' $0 'off' '   Arcolinux testing repo off.'
-    echo '      ' $0 'toggle' 'Arcolinux testing repo on/off.'
-    echo '      ' $0 'status' 'Arcolinux testing repo status.'
-    echo '      ' $0 '?' '     Help'
+	echo '      '  'on' '    Arcolinux testing repo on.'
+    echo '      '  'off' '   Arcolinux testing repo off.'
+    echo '      '  'toggle' 'Arcolinux testing repo on/off.'
+    echo '      '  'status' 'Arcolinux testing repo status.'
+    echo '      '  '?' '     Help'
 }
 
 stringon="\n[arcolinux_repo_testing]\nSigLevel = Required DatabaseOptional\nInclude = /etc/pacman.d/arcolinux-mirrorlist"
