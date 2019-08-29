@@ -2,6 +2,8 @@
 
 #Created 'krive001'
 
+[ "$UID" -eq 0 ] || exec pkexec "$0" "$@"
+
 function toggle() {
 	if [[ $repo_on -eq ' ' ]]
     then
@@ -9,16 +11,16 @@ function toggle() {
 	    awk -v "n=${lineoff}" -v "s=$stringon"  'NR==n {print s} {print $0}' /etc/pacman.conf > pa.cc 
 	    sebenoffd=$(grep -xnr '\#\[arcolinux_repo_testing\]' pa.cc | cut -d ":" -f1)
 	    sed -i "${sebenoffd},+3d" pa.cc
-	    sudo mv pa.cc  /etc/pacman.conf
-	    sudo pacman -Syy
+	     mv pa.cc  /etc/pacman.conf
+	     pacman -Syy
 		echo -e '\nArcolinux testing repo on.\n'
 	else
 		 lineon=$(expr $repo_on - 1)
          awk -v "n=${lineon}" -v "s=$stringoff"  'NR==n {print s} {print $0}' /etc/pacman.conf > pa.cc 
          sebenoffd=$(grep -xnr '\[arcolinux_repo_testing\]' pa.cc | cut -d ":" -f1)
          sed -i "${sebenoffd},+3d" pa.cc
-         sudo mv pa.cc  /etc/pacman.conf
-         sudo pacman -Syy
+          mv pa.cc  /etc/pacman.conf
+          pacman -Syy
 		 echo -e  '\nArcolinux testing repo off.\n'
 	fi
 }
@@ -46,8 +48,8 @@ case $1 in
 		awk -v "n=${lineoff}" -v "s=$stringon"  'NR==n {print s} {print $0}' /etc/pacman.conf > pa.cc 
 		sebenoffd=$(grep -xnr '\#\[arcolinux_repo_testing\]' pa.cc | cut -d ":" -f1)
 		sed -i "${sebenoffd},+3d" pa.cc
-		sudo mv pa.cc  /etc/pacman.conf
-		sudo pacman -Syy
+		 mv pa.cc  /etc/pacman.conf
+		 pacman -Syy
 		else
 			echo 'Arcolinux testing repo on.'
 		fi
@@ -58,8 +60,8 @@ case $1 in
          awk -v "n=${lineon}" -v "s=$stringoff"  'NR==n {print s} {print $0}' /etc/pacman.conf > pa.cc 
          sebenoffd=$(grep -xnr '\[arcolinux_repo_testing\]' pa.cc | cut -d ":" -f1)
          sed -i "${sebenoffd},+3d" pa.cc
-         sudo mv pa.cc  /etc/pacman.conf
-         sudo pacman -Syy
+          mv pa.cc  /etc/pacman.conf
+          pacman -Syy
          else
              echo 'Arcolinux testing repo off.'
 		fi
