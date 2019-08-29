@@ -1,0 +1,88 @@
+#!/bin/bash
+
+#Created 'krive001'
+
+function toggle() {
+	if [[ $repo_on -eq ' ' ]]
+    then
+	    lineoff=$(expr $repo_off - 1)
+	    awk -v "n=${lineoff}" -v "s=$stringon"  'NR==n {print s} {print $0}' /etc/pacman.conf > pa.cc 
+	    sebenoffd=$(grep -xnr '\#\[arcolinux_repo_testing\]' pa.cc | cut -d ":" -f1)
+	    sed -i "${sebenoffd},+3d" pa.cc
+	    sudo mv pa.cc  /etc/pacman.conf
+	    sudo pacman -Syy
+		echo -e '\nArcolinux testing repo on.\n'
+	else
+		 lineon=$(expr $repo_on - 1)
+         awk -v "n=${lineon}" -v "s=$stringoff"  'NR==n {print s} {print $0}' /etc/pacman.conf > pa.cc 
+         sebenoffd=$(grep -xnr '\[arcolinux_repo_testing\]' pa.cc | cut -d ":" -f1)
+         sed -i "${sebenoffd},+3d" pa.cc
+         sudo mv pa.cc  /etc/pacman.conf
+         sudo pacman -Syy
+		 echo -e  '\nArcolinux testing repo off.\n'
+	fi
+}
+
+
+function help() {
+	echo 'Usage:'
+	echo '      ' $0 'on' '    Arcolinux testing repo on.'
+    echo '      ' $0 'off' '   Arcolinux testing repo off.'
+    echo '      ' $0 'toggle' 'Arcolinux testing repo on/off.'
+    echo '      ' $0 'status' 'Arcolinux testing repo status.'
+    echo '      ' $0 '?' '     Help'
+}
+
+stringon="\n[arcolinux_repo_testing]\nSigLevel = Required DatabaseOptional\nInclude = /etc/pacman.d/arcolinux-mirrorlist"
+stringoff="\n#[arcolinux_repo_testing]\n#SigLevel = Required DatabaseOptional\n#Include = /etc/pacman.d/arcolinux-mirrorlist"
+
+repo_off=$(grep -xnr '\#\[arcolinux_repo_testing\]' /etc/pacman.conf | cut -d ":" -f1)
+repo_on=$(grep -xnr '\[arcolinux_repo_testing\]' /etc/pacman.conf | cut -d ":" -f1)
+
+case $1 in
+	on) if [[ $repo_on -eq ' ' ]]
+		then
+		lineoff=$(expr $repo_off - 1)
+		awk -v "n=${lineoff}" -v "s=$stringon"  'NR==n {print s} {print $0}' /etc/pacman.conf > pa.cc 
+		sebenoffd=$(grep -xnr '\#\[arcolinux_repo_testing\]' pa.cc | cut -d ":" -f1)
+		sed -i "${sebenoffd},+3d" pa.cc
+		sudo mv pa.cc  /etc/pacman.conf
+		sudo pacman -Syy
+		else
+			echo 'Arcolinux testing repo on.'
+		fi
+		;;
+	off) if [[ $repo_off -eq ' ' ]]
+         then
+         lineon=$(expr $repo_on - 1)
+         awk -v "n=${lineon}" -v "s=$stringoff"  'NR==n {print s} {print $0}' /etc/pacman.conf > pa.cc 
+         sebenoffd=$(grep -xnr '\[arcolinux_repo_testing\]' pa.cc | cut -d ":" -f1)
+         sed -i "${sebenoffd},+3d" pa.cc
+         sudo mv pa.cc  /etc/pacman.conf
+         sudo pacman -Syy
+         else
+             echo 'Arcolinux testing repo off.'
+		fi
+		;;
+	status) if [[ $repo_on -eq ' ' ]]
+			then
+			echo -e  '\nArcolinux testing repo off.\n'
+			else
+			echo -e  '\nArcolinux testing repo on.\n'
+			fi
+		;;
+	toggle) toggle
+		;;
+	?)  if [[ $repo_on -eq ' ' ]]
+        then
+		echo 'Arcolinux testing repo off.'
+		help
+		else
+		echo 'Arcolinux testing repo on.'
+		help
+		fi
+		;;
+	*) echo 'Invalid args.'
+       help
+       ;;
+esac 2>&-
